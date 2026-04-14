@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GREEN-API Telegram | Тестовое задание</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #eef2f7;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            padding: 28px 32px;
+        }
+        h1 {
+            font-size: 28px;
+            margin: 0 0 6px 0;
+            color: #1f3a5f;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .badge {
+            background: #e9ecef;
+            color: #2c3e66;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: normal;
+        }
+        .sub {
+            color: #4a627a;
+            margin-bottom: 30px;
+            border-left: 4px solid #2e7eb0;
+            padding-left: 16px;
+            font-size: 15px;
+        }
+        .params-panel {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            border: 1px solid #e2edf7;
+        }
+        .param-field {
+            flex: 1;
+            min-width: 260px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1e2f44;
+            font-size: 14px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #cbdde9;
+            border-radius: 16px;
+            font-size: 14px;
+            font-family: 'SF Mono', 'Courier New', monospace;
+            transition: all 0.2s;
+            background: white;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #2e7eb0;
+            box-shadow: 0 0 0 3px rgba(46,126,176,0.15);
+        }
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .method-card {
+            background: white;
+            border: 1px solid #e2edf7;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s;
+        }
+        .method-card h3 {
+            margin: 0 0 16px 0;
+            font-size: 20px;
+            color: #1f3a5f;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid #eef2fc;
+            padding-bottom: 10px;
+        }
+        .method-card input, .method-card textarea {
+            margin-bottom: 14px;
+            font-family: inherit;
+        }
+        button {
+            background: #2e7eb0;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            font-size: 15px;
+            transition: 0.2s;
+            margin-top: 6px;
+        }
+        button:hover {
+            background: #1f5a83;
+            transform: translateY(-1px);
+        }
+        .result-section {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 20px;
+            border: 1px solid #e2edf7;
+        }
+        .result-section label {
+            font-weight: 700;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+        .result-box {
+            width: 100%;
+            min-height: 240px;
+            font-family: 'SF Mono', 'Courier New', monospace;
+            font-size: 13px;
+            background: #0f172a;
+            color: #e2e8f0;
+            border: none;
+            border-radius: 20px;
+            padding: 16px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+        .info-note {
+            margin-top: 26px;
+            background: #eef6fc;
+            padding: 18px 22px;
+            border-radius: 20px;
+            border-left: 5px solid #2e7eb0;
+            font-size: 14px;
+            color: #1e3a5f;
+        }
+        .mono {
+            font-family: monospace;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>
+          GREEN-API • Telegram • Антон Тимашев
+        <span class="badge">тестовое задание</span>
+    </h1>
+    <div class="sub">Работа с Telegram через универсальное API от GREEN-API (методы sendMessage, sendFileByUrl и др.)</div>
+
+    <!-- Блок параметров подключения -->
+    <div class="params-panel">
+        <div class="param-field">
+            <label>🆔 idInstance</label>
+            <input type="text" id="idInstance" placeholder="например: 1101212345" value="">
+        </div>
+        <div class="param-field">
+            <label>🔑 apiTokenInstance</label>
+            <input type="text" id="apiToken" placeholder="ваш токен из личного кабинета GREEN-API" value="">
+        </div>
+    </div>
+
+    <!-- Сетка методов (4 обязательных метода) -->
+    <div class="methods-grid">
+        <!-- 1. getSettings -->
+        <div class="method-card">
+            <h3>⚙️ 1. getSettings</h3>
+            <p style="font-size: 13px; margin: 0 0 12px 0; color: #475569;">Получить настройки инстанса</p>
+            <button id="btnGetSettings">Вызвать getSettings</button>
+        </div>
+
+        <!-- 2. getStateInstance -->
+        <div class="method-card">
+            <h3>📡 2. getStateInstance</h3>
+            <p style="font-size: 13px; margin: 0 0 12px 0; color: #475569;">Статус инстанса (authorized / blocked / ...)</p>
+            <button id="btnGetState">Вызвать getStateInstance</button>
+        </div>
+
+        <!-- 3. sendMessage (Telegram) -->
+        <div class="method-card">
+            <h3>💬 3. sendMessage</h3>
+            <input type="text" id="telegramChatId" placeholder="Telegram chatId (число, например 123456789)" value="">
+            <textarea id="messageText" rows="2" placeholder="Текст сообщения для Telegram">Привет! Это тестовое сообщение через GREEN-API 🤖</textarea>
+            <button id="btnSendMessage">📨 Отправить сообщение</button>
+            <div style="font-size: 12px; margin-top: 10px; color: #4a5b6e;">💡 chatId можно получить через <span class="mono">getUpdates</span> или у <span class="mono">@userinfobot</span></div>
+        </div>
+
+        <!-- 4. sendFileByUrl (Telegram) -->
+        <div class="method-card">
+            <h3>📎 4. sendFileByUrl</h3>
+            <input type="text" id="telegramChatIdFile" placeholder="Telegram chatId (число, например 123456789)" value="">
+            <input type="text" id="fileUrl" placeholder="Прямой URL файла (изображение/PDF/документ)" value="https://disk.yandex.ru/i/Qiukrwkmv2wgDw">
+            <input type="text" id="fileName" placeholder="Имя файла (обязательно, например: документ.pdf)" value="Qiukrwkmv2wgDw">
+            <button id="btnSendFile">📤 Отправить файл по URL</button>
+        </div>
+    </div>
+
+    <!-- Поле вывода ответов -->
+    <div class="result-section">
+        <label>📋 ОТВЕТ МЕТОДА (только для чтения)</label>
+        <textarea class="result-box" id="responseField" readonly placeholder='Результат выполнения метода GREEN-API появится здесь ...'></textarea>
+    </div>
+
+<script>
+    // ---- HELPER: отображение ответа ----
+    const responseField = document.getElementById('responseField');
+    function displayResponse(data, methodName = '') {
+        if (typeof data === 'object') {
+            responseField.value = JSON.stringify(data, null, 2);
+        } else {
+            responseField.value = String(data);
+        }
+        if (methodName) {
+            console.log(`[${methodName}] Response:`, data);
+        }
+    }
+
+    function handleError(error, context = '') {
+        let errMsg = error.message || 'Неизвестная ошибка';
+        if (errMsg.includes('Failed to fetch') || errMsg.includes('CORS')) {
+            errMsg = '❌ Ошибка подключения';
+        } else if (errMsg.includes('401')) {
+            errMsg = '❌ Ошибка авторизации: неверный idInstance или apiTokenInstance.';
+        } else if (errMsg.includes('400') && errMsg.includes('chatId')) {
+            errMsg = '❌ Ошибка: некорректный chatId. Проверьте, что передан числовой идентификатор (например, 123456789).';
+        }
+        displayResponse({ error: true, message: errMsg, context: context || 'Ошибка выполнения запроса' });
+    }
+
+    // ---- универсальный вызов GREEN-API (Telegram) ----
+    async function callGreenApiTelegram(method, params = null) {
+        const idInstance = document.getElementById('idInstance').value.trim();
+        const apiToken = document.getElementById('apiToken').value.trim();
+
+        if (!idInstance || !apiToken) {
+            displayResponse({ error: true, message: 'Заполните idInstance и apiTokenInstance!' });
+            return null;
+        }
+
+        const baseUrl = `https://api.green-api.com/waInstance${idInstance}/${method}/${apiToken}`;
+
+        let options = {
+            method: params ? 'POST' : 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        };
+        if (params) {
+            options.body = JSON.stringify(params);
+        }
+
+        responseField.value = `⏳ Отправка запроса к GREEN-API...\nМетод: ${method}\nURL: ${baseUrl}`;
+
+        try {
+            const resp = await fetch(baseUrl, options);
+            const data = await resp.json();
+            displayResponse(data, method);
+            return data;
+        } catch (err) {
+            handleError(err, method);
+            return null;
+        }
+    }
+
+    // ---- 1. getSettings ----
+    document.getElementById('btnGetSettings').addEventListener('click', async () => {
+        await callGreenApiTelegram('getSettings');
+    });
+
+    // ---- 2. getStateInstance ----
+    document.getElementById('btnGetState').addEventListener('click', async () => {
+        await callGreenApiTelegram('getStateInstance');
+    });
+
+    // ---- 3. sendMessage (Telegram) ----
+    document.getElementById('btnSendMessage').addEventListener('click', async () => {
+        let chatId = document.getElementById('telegramChatId').value.trim();
+        const message = document.getElementById('messageText').value.trim();
+
+        if (!chatId) {
+            displayResponse({ error: true, message: 'Укажите Telegram chatId (число). Его можно получить через @userinfobot или метод getUpdates.' });
+            return;
+        }
+        if (!message) {
+            displayResponse({ error: true, message: 'Введите текст сообщения.' });
+            return;
+        }
+        if (chatId.startsWith('@')) {
+            displayResponse({ error: true, message: 'Для Telegram методов GREEN-API требуется числовой chatId (например, 123456789), а не username. Получите chatId через @userinfobot.' });
+            return;
+        }
+        await callGreenApiTelegram('sendMessage', { chatId: chatId, message: message });
+    });
+
+    // ---- 4. sendFileByUrl (Telegram) ----
+    document.getElementById('btnSendFile').addEventListener('click', async () => {
+        let chatId = document.getElementById('telegramChatIdFile').value.trim();
+        const urlFile = document.getElementById('fileUrl').value.trim();
+        const fileName = document.getElementById('fileName').value.trim();
+
+        if (!chatId) {
+            displayResponse({ error: true, message: 'Укажите Telegram chatId для отправки файла.' });
+            return;
+        }
+        if (!urlFile) {
+            displayResponse({ error: true, message: 'Укажите URL файла (http/https).' });
+            return;
+        }
+        if (!fileName) {
+            displayResponse({ error: true, message: 'Укажите имя файла (поле fileName обязательное).' });
+            return;
+        }
+        if (chatId.startsWith('@')) {
+            displayResponse({ error: true, message: 'Требуется числовой chatId, а не username.' });
+            return;
+        }
+
+        // Отправляем все три обязательных параметра: chatId, urlFile, fileName
+        await callGreenApiTelegram('sendFileByUrl', { 
+            chatId: chatId, 
+            urlFile: urlFile,
+            fileName: fileName
+        });
+    });
+</script>
+</body>
+</html>
